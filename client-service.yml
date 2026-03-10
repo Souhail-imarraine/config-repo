@@ -1,4 +1,7 @@
 spring:
+  cloud:
+    config:
+      enabled: true
   datasource:
     url: jdbc:mysql://localhost:3306/client-service
     username: root
@@ -17,5 +20,8 @@ spring:
   cloud:
     discovery:
       enabled: true
-    config:
-      enabled: true
+
+eureka:
+  client:
+    enabled: true
+  
