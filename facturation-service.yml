@@ -1,0 +1,52 @@
+spring:
+  application:
+    name: facturation-service
+  cloud:
+    config:
+      enabled: true
+  datasource:
+    url: jdbc:mysql://localhost:3306/facture_db?createDatabaseIfNotExist=true
+    username: root
+    password: ${DB_PASSWORD:}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+
+server:
+  port: 8083
+
+eureka:
+  client:
+    enabled: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+    healthcheck:
+      enabled: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,prometheus,info,metrics
+      base-path: /actuator
+  endpoint:
+    health:
+      show-details: always
+      show-components: always
+  health:
+    db:
+      enabled: true
+    diskSpace:
+      enabled: true
+    eureka:
+      enabled: true
+  metrics:
+    export:
+      prometheus:
+        enabled: true
+
