@@ -18,3 +18,30 @@ spring:
 eureka:
   client:
     enabled: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+    healthcheck:
+      enabled: true
+
+# ⬇️ ADD THIS SECTION ⬇️
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,prometheus,info,metrics
+      base-path: /actuator
+  endpoint:
+    health:
+      show-details: always
+      show-components: always
+  health:
+    db:
+      enabled: true
+    diskSpace:
+      enabled: true
+    eureka:
+      enabled: true
+  metrics:
+    export:
+      prometheus:
+        enabled: true
