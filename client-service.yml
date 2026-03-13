@@ -23,7 +23,6 @@ eureka:
     healthcheck:
       enabled: true
 
-# ⬇️ ADD THIS SECTION ⬇️
 management:
   endpoints:
     web:
@@ -45,3 +44,5 @@ management:
     export:
       prometheus:
         enabled: true
+    tags:
+      application: ${spring.application.name}  # ⬅️ ADD THIS LINE
