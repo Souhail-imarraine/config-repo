@@ -28,11 +28,43 @@ eureka:
     healthcheck:
       enabled: true
 
+# Disable Feign built-in circuit breaker so our @Retry executes before the CircuitBreaker
+feign:
+  circuitbreaker:
+    enabled: false
+
+# Resilience4j configuration: Retry (3 attempts, 500ms) and CircuitBreaker for produit-service
+resilience4j:
+  retry:
+    instances:
+      produit-service:
+        max-attempts: 3
+        wait-duration: 500ms
+        enable-exponential-backoff: false
+      client-service:
+        max-attempts: 3
+        wait-duration: 500ms
+        enable-exponential-backoff: false
+  circuitbreaker:
+    instances:
+      produit-service:
+        sliding-window-size: 5
+        failure-rate-threshold: 50
+        wait-duration-in-open-state: 10s
+        permitted-number-of-calls-in-half-open-state: 3
+        automatic-transition-from-open-to-half-open-enabled: true
+      client-service:
+        sliding-window-size: 5
+        failure-rate-threshold: 50
+        wait-duration-in-open-state: 10s
+        permitted-number-of-calls-in-half-open-state: 3
+        automatic-transition-from-open-to-half-open-enabled: true
+
 management:
   endpoints:
     web:
       exposure:
-        include: health,prometheus,info,metrics
+        include: health,prometheus,info,metrics,retries,retryevents,circuitbreakers,circuitbreakerevents
       base-path: /actuator
   endpoint:
     health:
@@ -49,4 +81,3 @@ management:
     export:
       prometheus:
         enabled: true
-
